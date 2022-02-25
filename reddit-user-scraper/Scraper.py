@@ -261,8 +261,8 @@ if __name__ == '__main__':
     user_as_redditor = reddit.redditor(user_name)
     user_info = UserInfo()
     
-    user_comments_list = user_as_redditor.comments.new(limit=99) #Limited to 100 historical submissions by Reddit API
-    user_submissions_list = user_as_redditor.submissions.new(limit=99) #Limited to 100 historical submissions by Reddit API
+    user_comments_list = list(user_as_redditor.comments.new(limit=99)) #Limited to 100 historical submissions by Reddit API
+    user_submissions_list = list(user_as_redditor.submissions.new(limit=99)) #Limited to 100 historical submissions by Reddit API
     
     if user_info.IsSuspended():
         print("User is shadowbanned - only contains name and is_suspended attributes")
@@ -281,12 +281,8 @@ if __name__ == '__main__':
         u2.PrintFiveMostVotedComments()
         u2.ConvertFiveMostVotedCommentsToTxt()
         
-        user_comments_list = user_as_redditor.comments.new(limit=99) #Limited to 100 historical submissions by Reddit API
-        user_submissions_list = user_as_redditor.submissions.new(limit=99) #Limited to 100 historical submissions by Reddit API
         print(FindVoteDistribution())
         
-        user_comments_list = user_as_redditor.comments.new(limit=99) #Limited to 100 historical submissions by Reddit API
-        user_submissions_list = user_as_redditor.submissions.new(limit=99) #Limited to 100 historical submissions by Reddit API
         print(FindMostActive())
     print("")
     opened_file.close()
