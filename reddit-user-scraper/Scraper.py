@@ -112,7 +112,7 @@ def FindPrintFiveMostVotedComments():
         idx+=1
     
 def FindPrintVoteDistribution(): 
-    print("User's top subreddits ranked by comment/submission upvotes (Out of last 198 interactions):")
+    print("\nUser's top subreddits ranked by comment/submission upvotes (Out of last 198 interactions):")
     active_subreddits_map = {}
     for comments in user_comments_list:
         sub_name = comments.subreddit.display_name
@@ -195,12 +195,17 @@ if __name__ == '__main__':
     if user_shadowbanned:
         print("User is shadowbanned - only contains name and is_suspended attributes")
     else:
-        '''SetBasicInfo()
+        SetBasicInfo()
         PrintBasicInfo()
         
         FindPrintFiveMostVotedSubmissions()
         FindPrintFiveMostVotedComments()
         
-        FindPrintVoteDistribution()'''
+        user_comments_list = user_as_redditor.comments.new(limit=99) #Limited to 100 historical submissions by Reddit API
+        user_submissions_list = user_as_redditor.submissions.new(limit=99) #Limited to 100 historical submissions by Reddit API
+        FindPrintVoteDistribution()
+        
+        user_comments_list = user_as_redditor.comments.new(limit=99) #Limited to 100 historical submissions by Reddit API
+        user_submissions_list = user_as_redditor.submissions.new(limit=99) #Limited to 100 historical submissions by Reddit API
         FindPrintMostActive()
     print("")
