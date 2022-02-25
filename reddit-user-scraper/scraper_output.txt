@@ -1,20 +1,16 @@
 
-UserInfo_delim
-_dancingrain_;,.07/03/2020, 06:27:58 UTC;,.602 days;,.147 karma;,.538 karma;,.False;,.False;,.6wp8edrq;,.
-UserInfo_delim_close
-
 TopFiveVotedSubmissionsData_delim
-listbegin_delim1;,.235;,.11/19/2021, 11:46:44;,.8;,.Lunar Eclipse from Ike!;,.list_delim_close
-listbegin_delim2;,.225;,.07/17/2020, 20:56:35;,.14;,.Badlands | A7iii + Tamron 28-75;,.list_delim_close
-listbegin_delim3;,.66;,.03/07/2021, 23:01:46;,.9;,.170k - the stars (bounty buffs) finally aligned;,.list_delim_close
+listbegin_delim1;,.230;,.11/19/2021, 11:46:44;,.8;,.Lunar Eclipse from Ike!;,.list_delim_close
+listbegin_delim2;,.226;,.07/17/2020, 20:56:35;,.14;,.Badlands | A7iii + Tamron 28-75;,.list_delim_close
+listbegin_delim3;,.65;,.03/07/2021, 23:01:46;,.9;,.170k - the stars (bounty buffs) finally aligned;,.list_delim_close
 listbegin_delim4;,.18;,.07/31/2020, 05:51:33;,.12;,.Anyone know what this 5-pin connector is? Trying to find it w/ a usb cable;,.list_delim_close
-listbegin_delim5;,.4;,.11/05/2020, 00:59:30;,.20;,.1135g7 vs 1165 g7 @15W;,.list_delim_close
+listbegin_delim5;,.3;,.10/11/2020, 03:35:11;,.2;,.6 Night Watch;,.list_delim_close
 TopFiveVotedSubmissionsData_delim_close
 
 TopFiveVotedCommentsData_delim
-listbegin_delim1;,.41;,.09/29/2020, 06:01:35;,.0;,.Bite-sized ration;,.list_delim_close
-listbegin_delim2;,.26;,.10/23/2020, 18:42:30;,.0;,.ig 2020 16 mbp will be x86 again then? perhaps 10/11th gen intel chip;,.list_delim_close
-listbegin_delim3;,.19;,.07/17/2020, 23:57:07;,.0;,.r/cursedimages;,.list_delim_close
-listbegin_delim4;,.12;,.11/07/2020, 22:15:47;,.0;,.4k is definitely noticeable if you're observant, but the avg viewing ;,.list_delim_close
-listbegin_delim5;,.10;,.12/01/2020, 08:31:17;,.0;,.spending 90% ingame circlejerking enUS manchildren doesnt earn you AN;,.list_delim_close
+listbegin_delim1;,.37;,.09/29/2020, 06:01:35;,.0;,.Bite-sized ration;,.list_delim_close
+listbegin_delim2;,.27;,.10/23/2020, 18:42:30;,.0;,.ig 2020 16 mbp will be x86 again then? perhaps 10/11th gen intel chip;,.list_delim_close
+listbegin_delim3;,.22;,.07/17/2020, 23:57:07;,.0;,.r/cursedimages;,.list_delim_close
+listbegin_delim4;,.13;,.11/07/2020, 22:15:47;,.0;,.4k is definitely noticeable if you're observant, but the avg viewing ;,.list_delim_close
+listbegin_delim5;,.9;,.12/01/2020, 08:31:17;,.0;,.spending 90% ingame circlejerking enUS manchildren doesnt earn you AN;,.list_delim_close
 TopFiveVotedCommentsData_delim_close

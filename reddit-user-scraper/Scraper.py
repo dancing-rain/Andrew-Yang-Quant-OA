@@ -1,5 +1,6 @@
 #Dependencies
 from array import array
+from operator import mod
 from statistics import mode
 from unicodedata import name
 import praw
@@ -7,6 +8,7 @@ import os
 from datetime import datetime
 import time
 from prawcore.exceptions import NotFound
+import json
 
 
 abs_path = os.path.abspath(__file__)
@@ -100,20 +102,18 @@ class UserInfo:
     id: str #user's id - short series of alphanumeric charaacters
     name: str #user's name
     cake_day: str #month/day/year
-    age: int #in days
-    karma_comments: int #comment karma, may be slightly off
-    karma_overall: int #comment karma + post karma, may be slightly off
-    moderator: bool #user is a subreddit moderator
-    suspended: bool #user is suspended from reddit
+    age: str #in days
+    karma_comments: str #comment karma, may be slightly off
+    karma_overall: str #comment karma + post karma, may be slightly off
+    moderator: str #user is a subreddit moderator
+    suspended: str #user is suspended from reddit
     five_most_voted_submissions: str
     five_most_voted_comments: str
     vote_distribution: str
     most_active_subs: str
-    info_keys: list
-    info_values: list
-    txt_delimiter: str
+    info_map: map
     
-    def __init__(self, id="", name="", cake_day="", age=0, karma_comments=0, karma_overall=0, moderator=False, suspended=False, txt_delimiter = "UserInfo_delim"):
+    def __init__(self, id="", name="", cake_day="", age="", karma_comments="", karma_overall="", moderator="False", suspended="False", txt_delimiter = "UserInfo_delim"):
         self.id = id
         self.name = name
         self.cake_day = cake_day
@@ -122,21 +122,20 @@ class UserInfo:
         self.karma_overall = karma_overall
         self.moderator = moderator
         self.suspended = suspended
-        self.info_keys = ["Username: ", "Cake Day: ", "Age: ", "User Comment Karma: ", "User Overall Karma: ", "User is a moderator: ", "User is suspended: ", "User ID: "] 
-        self.info_values = [name, cake_day, age, karma_comments, karma_overall, moderator, suspended, id]
-        self.txt_delimiter = txt_delimiter
+        self.info_map = {"Username":self.name, "Cake Day":self.cake_day, "Age":self.age, "User Comment Karma":self.karma_comments, "User Overall Karma":self.karma_overall, "User is a moderator":self.moderator, "User is suspended":self.suspended, "User ID":self.id}
     
     def SetBasicInfo(self):
         #Username
         self.name = user_as_redditor.name
         #Is user suspended
-        self.suspended = True;
+        self.suspended = "True"
+        shadowbanned = True
         try:
             self.user_as_redditor.is_suspended
         except AttributeError:
-            self.suspended = False;
-            user_shadowbanned = False;
-        if not user_shadowbanned: 
+            self.suspended = "False"
+            shadowbanned = False
+        if not shadowbanned: 
             #ID
             self.id = user_as_redditor.id
             #UTC
@@ -150,20 +149,19 @@ class UserInfo:
             self.moderator = False;
             if (user_as_redditor.is_mod):
                 self.moderator = True;
-            self.info_values = [self.name, self.cake_day, self.age, self.karma_comments, self.karma_overall, self.moderator, self.suspended, self.id]
+            self.info_map = {"Username":self.name, "Cake Day":self.cake_day, "Age":self.age, "User Comment Karma":self.karma_comments, "User Overall Karma":self.karma_overall, "User is a moderator":self.moderator, "User is suspended":self.suspended, "User ID":self.id}
+
             
     def IsSuspended(self):
-        return self.suspended
+        return self.suspended == "True"
     
     def ConvertBasicInfoToTxt(self):
-        opened_file.write("\n" + self.txt_delimiter + "\n")
-        for idx in range(0,len(self.info_keys)):
-            opened_file.write(str(self.info_values[idx]) + ";,.")
-        opened_file.write("\n" + self.txt_delimiter + "_close\n")
+        with open("scraper_output.json", "w") as outfile:
+            json.dump(self.info_map, outfile)
         
     def PrintBasicInfo(self):
-        for idx in range(0,len(self.info_keys)):
-            print(self.info_keys[idx] + str(self.info_values[idx]))
+        for i,(k,v) in enumerate(self.info_map.items()):
+            print(str(k) + ": " + str(v))
             
         
 class TopFiveVotedSubmissionsData:
