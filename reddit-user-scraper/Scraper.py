@@ -134,7 +134,7 @@ def FindPrintVoteDistribution():
     descending_subreddit_by_activity = sorted(active_subreddits_list,key=lambda x:x[1], reverse=True)
     idx = 0
     for subreddit in descending_subreddit_by_activity:
-        print(str(idx+1) + ")\tSubreddit: " + subreddit[0] + " | " + str(subreddit[1]) + " votes")
+        print(str(idx+1) + ")\tSubreddit: " + subreddit[0] + " | " + str(subreddit[1]) + " vote(s)")
         idx+=1
     
 def FindPrintMostActive():
