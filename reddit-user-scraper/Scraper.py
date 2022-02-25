@@ -13,6 +13,7 @@ abs_path = os.path.abspath(__file__)
 dir_name = os.path.dirname(abs_path)
 os.chdir(dir_name)
 file_name = "scraper_output.txt"
+opened_file = open(file_name,"w")
 
 reddit = praw.Reddit( #instance of praw reddit for API access
     client_id = 'g1newHxnqEdQYH8vN8hSLw',
@@ -36,36 +37,6 @@ def GetUsernameInput(): #Check if inputted username is valid
         print("\nUsername not found, try again\n")
         return GetUsernameInput()
     return name;
-    
-def FindFiveMostVotedSubmissions():
-    to_return = "\nTop 5 most upvoted posts (Out of last 99 posts):\n"
-    sorted_submissions = sorted(user_submissions_list,key=lambda x:x.score, reverse=True)
-    idx = 0
-    for submission in sorted_submissions:
-        if idx < 5 and idx < len(sorted_submissions):
-            to_return += str(idx + 1) + ")\t" + "score: " + str(submission.score) + " | " + datetime.utcfromtimestamp(int(submission.created_utc)).strftime("%m/%d/%Y, %H:%M:%S") + "UTC | " + str(submission.num_comments) + " comments | Title: " + submission.title + "\n"
-            #appends in the following format: POST_NUMBER)      score: UPVOTE_SCORE | DATE_TIME_UTC | COMMENT_COUNT comments | Title: TITLE
-        elif idx < 5 and idx == len(sorted_submissions) - 1:
-            to_return += "X)\tUser has made < 6 total submissions\n"
-            #prints when user's total submission count is less than or equal to 5
-        idx+=1
-    return to_return;
-        
-def FindFiveMostVotedComments():
-    to_return = "\nTop 5 most upvoted comments (Out of last 99 posts):\n"
-    sorted_comments = sorted(user_comments_list,key=lambda x:x.score, reverse=True)
-    idx = 0
-    for comments in sorted_comments:
-        if idx < 5 and idx < len(sorted_comments):
-            comment_body = comments.body.replace("\n","")
-            if len(comment_body) > 40:
-                comment_body = comment_body[0:100] + "..."
-            to_return += str(idx + 1) + ")\t" + "score: " + str(comments.score) + " | " + datetime.utcfromtimestamp(int(comments.created_utc)).strftime("%m/%d/%Y, %H:%M:%S") + "UTC | " + str(len(comments.replies)) + " replies | contents: " + comment_body + "\n"
-        elif idx < 5 and idx == len(sorted_comments) - 1:
-            to_return += "X)\tUser has made < 6 total comments\n"
-            #prints when user's total comment count is less than or equal to 5
-        idx+=1
-    return to_return
     
 def FindVoteDistribution(): 
     to_return = "\nUser's top subreddits ranked by comment/submission upvotes (Out of last 198 interactions):\n"
@@ -93,7 +64,7 @@ def FindVoteDistribution():
     idx = 0
     #print subreddit upvote distribution in descending order
     for subreddit in descending_subreddit_by_activity:
-        to_return += str(idx+1) + ")\tSubreddit: " + subreddit[0] + " | " + str(subreddit[1]) + " vote(s)\n"
+        to_return += str(idx+1) + ")\t" + "r/" + subreddit[0] + " | " + str(subreddit[1]) + " vote(s)\n"
         idx+=1
     return to_return
     
@@ -121,7 +92,7 @@ def FindMostActive():
     idx = 0
     #print subreddit interactions in descending order
     for subreddit in descending_subreddit_by_activity:
-        to_return += str(idx+1) + ")\tSubreddit: " + subreddit[0] + " | " + str(subreddit[1]) + " interaction(s)\n"
+        to_return += str(idx+1) + ")\t" + "r/" + subreddit[0] + " | " + str(subreddit[1]) + " interaction(s)\n"
         idx+=1
     return to_return
 
@@ -185,12 +156,10 @@ class UserInfo:
         return self.suspended
     
     def ConvertBasicInfoToTxt(self):
-        opened_file = open(file_name,"w")
         opened_file.write("\n" + self.txt_delimiter + "\n")
-        for idx in range(0,7):
-            opened_file.write(str(self.info_values[idx]) + ",")
+        for idx in range(0,len(self.info_keys)):
+            opened_file.write(str(self.info_values[idx]) + ";,.")
         opened_file.write("\n" + self.txt_delimiter + "_close\n")
-        opened_file.close()
         
     def PrintBasicInfo(self):
         for idx in range(0,len(self.info_keys)):
@@ -199,17 +168,78 @@ class UserInfo:
         
 class TopFiveVotedSubmissionsData:
     descriptive_header: str
+    info_keys: list
+    info_values: list
     txt_delimiter: str
     
     def __init__(self, descriptive_header="\nTop 5 most upvoted posts (Out of last 99 posts):\n", txt_delimiter = "TopFiveVotedSubmissionsData_delim"):
         self.descriptive_header = descriptive_header
+        self.info_keys = ["Rank ", "| Score: ", " | Time: ", " UTC | ", " comments | Title: "]
+        self.info_values = []
         self.txt_delimiter = txt_delimiter
+        
+    def FindFiveMostVotedSubmissions(self):
+        sorted_submissions = sorted(user_submissions_list,key=lambda x:x.score, reverse=True)
+        idx = 0
+        for submission in sorted_submissions:
+            if idx < 5 and idx < len(sorted_submissions):
+                self.info_values.append([idx + 1, submission.score, datetime.utcfromtimestamp(int(submission.created_utc)).strftime("%m/%d/%Y, %H:%M:%S"), submission.num_comments, submission.title])
+            idx+=1
+            
+    def PrintFiveMostVotedSubmissions(self):
+        print(self.descriptive_header)
+        for idx in range(0,len(self.info_values)):
+            to_print = ""
+            for idx1 in range(0,len(self.info_keys)):
+                to_print += self.info_keys[idx1] + str(self.info_values[idx][idx1])
+            print(to_print)
+            
+    def ConvertFiveMostVotedSubmissionsToTxt(self):
+        opened_file.write("\n" + self.txt_delimiter + "\n")
+        for idx in range(0,len(self.info_values)):
+            to_txt = "listbegin_delim"
+            for idx1 in range(0,len(self.info_keys)):
+                to_txt +=str(self.info_values[idx][idx1]) + ";,."
+            to_txt += "list_delim_close\n"
+            opened_file.write(to_txt)
+        opened_file.write(self.txt_delimiter + "_close\n")
+        
 class TopFiveVotedCommentsData:
     descriptive_header: str
+    info_keys: list
+    info_values: list
     txt_delimiter: str
     def __init__(self, descriptive_header="\nTop 5 most upvoted comments (Out of last 99 posts):\n", txt_delimiter = "TopFiveVotedCommentsData_delim"):
         self.descriptive_header = descriptive_header
+        self.info_keys = ["Rank ", "| Score: ", " | Time: ", " UTC | ", " replies | Contents: "]
+        self.info_values = []
         self.txt_delimiter = txt_delimiter
+        
+    def FindFiveMostVotedComments(self):
+        sorted_comments = sorted(user_comments_list,key=lambda x:x.score, reverse=True)
+        idx = 0
+        for comments in sorted_comments:
+            if idx < 5 and idx < len(sorted_comments):
+                self.info_values.append([idx + 1, comments.score, datetime.utcfromtimestamp(int(comments.created_utc)).strftime("%m/%d/%Y, %H:%M:%S"), len(comments.replies), comments.body.replace("\n","")[0:69]])
+            idx+=1
+        
+    def PrintFiveMostVotedComments(self):
+        print(self.descriptive_header)
+        for idx in range(0,len(self.info_values)):
+            to_print = ""
+            for idx1 in range(0,len(self.info_keys)):
+                to_print += self.info_keys[idx1] + str(self.info_values[idx][idx1])
+            print(to_print)
+            
+    def ConvertFiveMostVotedCommentsToTxt(self):
+        opened_file.write("\n" + self.txt_delimiter + "\n")
+        for idx in range(0,len(self.info_values)):
+            to_txt = "listbegin_delim"
+            for idx1 in range(0,len(self.info_keys)):
+                to_txt +=str(self.info_values[idx][idx1]) + ";,."
+            to_txt += "list_delim_close\n"
+            opened_file.write(to_txt)
+        opened_file.write(self.txt_delimiter + "_close\n")
 class VoteDistribution:
     descriptive_header: str
     txt_delimiter: str
@@ -224,11 +254,6 @@ class MostActiveSubs:
         self.txt_delimiter = txt_delimiter
 
 if __name__ == '__main__':
-    #erase previous text in text file
-    opened_file = open(file_name,"r+")
-    opened_file.truncate(0)
-    opened_file.close()
-    
     print()
     user_name = GetUsernameInput()
     print()
@@ -246,8 +271,15 @@ if __name__ == '__main__':
         user_info.PrintBasicInfo()
         user_info.ConvertBasicInfoToTxt()
         
-        print(FindFiveMostVotedSubmissions())
-        print(FindFiveMostVotedComments())
+        u1 = TopFiveVotedSubmissionsData()
+        u1.FindFiveMostVotedSubmissions()
+        u1.PrintFiveMostVotedSubmissions()
+        u1.ConvertFiveMostVotedSubmissionsToTxt()
+        
+        u2 = TopFiveVotedCommentsData()
+        u2.FindFiveMostVotedComments()
+        u2.PrintFiveMostVotedComments()
+        u2.ConvertFiveMostVotedCommentsToTxt()
         
         user_comments_list = user_as_redditor.comments.new(limit=99) #Limited to 100 historical submissions by Reddit API
         user_submissions_list = user_as_redditor.submissions.new(limit=99) #Limited to 100 historical submissions by Reddit API
@@ -257,3 +289,4 @@ if __name__ == '__main__':
         user_submissions_list = user_as_redditor.submissions.new(limit=99) #Limited to 100 historical submissions by Reddit API
         print(FindMostActive())
     print("")
+    opened_file.close()
