@@ -1,4 +1,5 @@
 #Dependencies
+from array import array
 from statistics import mode
 from unicodedata import name
 import praw
@@ -11,12 +12,7 @@ from prawcore.exceptions import NotFound
 abs_path = os.path.abspath(__file__)
 dir_name = os.path.dirname(abs_path)
 os.chdir(dir_name)
-
-user_info = None;
-user_as_redditor = None;
-user_comments_list = None
-user_submissions_list = None
-user_shadowbanned = False;
+file_name = "scraper_output.txt"
 
 reddit = praw.Reddit( #instance of praw reddit for API access
     client_id = 'g1newHxnqEdQYH8vN8hSLw',
@@ -40,52 +36,6 @@ def GetUsernameInput(): #Check if inputted username is valid
         print("\nUsername not found, try again\n")
         return GetUsernameInput()
     return name;
-
-def GetDate():
-    cake_day_date = datetime.utcfromtimestamp(int(user_as_redditor.created_utc)).strftime("%m/%d/%Y, %H:%M:%S")
-    return cake_day_date
-    
-def GetAge():
-    cake_day_unix = user_as_redditor.created_utc
-    current_time_unix = time.time()
-    seconds_per_day = 86400
-    return int((current_time_unix-cake_day_unix)/seconds_per_day)
-
-def SetBasicInfo():
-    #Username
-    user_info.name = user_as_redditor.name
-    #Is user suspended
-    user_info.suspended = True;
-    try:
-        user_as_redditor.is_suspended
-    except AttributeError:
-        user_info.suspended = False;
-        user_shadowbanned = False;
-    if not user_shadowbanned: 
-        #ID
-        user_info.id = user_as_redditor.id
-        #UTC
-        user_info.cake_day = GetDate() + " UTC"
-        #Days
-        user_info.age = str(GetAge()) + " days"
-        #PRAW Karma may vary from actual
-        user_info.karma_comments = str(user_as_redditor.comment_karma) + " karma"
-        user_info.karma_overall = str(user_as_redditor.link_karma + user_as_redditor.comment_karma) + " karma"
-        #Is user a moderator
-        user_info.moderator = False;
-        if (user_as_redditor.is_mod):
-            user_info.moderator = True;
-    
-def GetBasicInfo():
-    to_return = "Username: " + user_info.name + "\n"
-    to_return += "Cake Day: " + user_info.cake_day + "\n"
-    to_return += "User Age: " + str(user_info.age) + "\n"
-    to_return += "User Comment Karma: " + str(user_info.karma_comments) + "\n"
-    to_return += "User Overall Karma: " + str(user_info.karma_overall) + "\n"
-    to_return += "User is a moderator: " + str(user_info.moderator) + "\n"
-    to_return += "User is suspended: " + str(user_info.suspended) + "\n"
-    to_return += "User ID: " + user_info.id + "\n"
-    return to_return
     
 def FindFiveMostVotedSubmissions():
     to_return = "\nTop 5 most upvoted posts (Out of last 99 posts):\n"
@@ -188,8 +138,11 @@ class UserInfo:
     five_most_voted_comments: str
     vote_distribution: str
     most_active_subs: str
+    info_keys: list
+    info_values: list
+    txt_delimiter: str
     
-    def __init__(self, id="", name="", cake_day="", age=0, karma_comments=0, karma_overall=0, moderator=False, suspended=False):
+    def __init__(self, id="", name="", cake_day="", age=0, karma_comments=0, karma_overall=0, moderator=False, suspended=False, txt_delimiter = "UserInfo_delim"):
         self.id = id
         self.name = name
         self.cake_day = cake_day
@@ -198,26 +151,84 @@ class UserInfo:
         self.karma_overall = karma_overall
         self.moderator = moderator
         self.suspended = suspended
-        
-'''class TopFiveVotedSubmissionsData:
-    descriptive_header: str
+        self.info_keys = ["Username: ", "Cake Day: ", "Age: ", "User Comment Karma: ", "User Overall Karma: ", "User is a moderator: ", "User is suspended: ", "User ID: "] 
+        self.info_values = [name, cake_day, age, karma_comments, karma_overall, moderator, suspended, id]
+        self.txt_delimiter = txt_delimiter
     
-    def __init__(self, descriptive_header="\nTop 5 most upvoted posts (Out of last 99 posts):\n"):
+    def SetBasicInfo(self):
+        #Username
+        self.name = user_as_redditor.name
+        #Is user suspended
+        self.suspended = True;
+        try:
+            self.user_as_redditor.is_suspended
+        except AttributeError:
+            self.suspended = False;
+            user_shadowbanned = False;
+        if not user_shadowbanned: 
+            #ID
+            self.id = user_as_redditor.id
+            #UTC
+            self.cake_day = datetime.utcfromtimestamp(int(user_as_redditor.created_utc)).strftime("%m/%d/%Y, %H:%M:%S") + " UTC"
+            #Days
+            self.age = str(int((time.time()-user_as_redditor.created_utc)/86400)) + " days"
+            #PRAW Karma may vary from actual
+            self.karma_comments = str(user_as_redditor.comment_karma) + " karma"
+            self.karma_overall = str(user_as_redditor.link_karma + user_as_redditor.comment_karma) + " karma"
+            #Is user a moderator
+            self.moderator = False;
+            if (user_as_redditor.is_mod):
+                self.moderator = True;
+            self.info_values = [self.name, self.cake_day, self.age, self.karma_comments, self.karma_overall, self.moderator, self.suspended, self.id]
+            
+    def IsSuspended(self):
+        return self.suspended
+    
+    def ConvertBasicInfoToTxt(self):
+        opened_file = open(file_name,"w")
+        opened_file.write("\n" + self.txt_delimiter + "\n")
+        for idx in range(0,7):
+            opened_file.write(str(self.info_values[idx]) + ",")
+        opened_file.write("\n" + self.txt_delimiter + "_close\n")
+        opened_file.close()
+        
+    def PrintBasicInfo(self):
+        for idx in range(0,len(self.info_keys)):
+            print(self.info_keys[idx] + str(self.info_values[idx]))
+            
+        
+class TopFiveVotedSubmissionsData:
+    descriptive_header: str
+    txt_delimiter: str
+    
+    def __init__(self, descriptive_header="\nTop 5 most upvoted posts (Out of last 99 posts):\n", txt_delimiter = "TopFiveVotedSubmissionsData_delim"):
         self.descriptive_header = descriptive_header
+        self.txt_delimiter = txt_delimiter
 class TopFiveVotedCommentsData:
     descriptive_header: str
-    def __init__(self, descriptive_header="\nTop 5 most upvoted comments (Out of last 99 posts):\n"):
+    txt_delimiter: str
+    def __init__(self, descriptive_header="\nTop 5 most upvoted comments (Out of last 99 posts):\n", txt_delimiter = "TopFiveVotedCommentsData_delim"):
         self.descriptive_header = descriptive_header
+        self.txt_delimiter = txt_delimiter
 class VoteDistribution:
     descriptive_header: str
-    def __init__(self, descriptive_header="\nTop active subreddits ranked by quantity of comments and submissions (Out of last 198 interactions):\n"):
+    txt_delimiter: str
+    def __init__(self, descriptive_header="\nUser's top subreddits ranked by comment/submission upvotes (Out of last 198 interactions):\n", txt_delimiter = "VoteDistribution_delim"):
         self.descriptive_header = descriptive_header
+        self.txt_delimiter = txt_delimiter
 class MostActiveSubs:
     descriptive_header: str
-    def __init__(self, descriptive_header="\nTop active subreddits ranked by quantity of comments and submissions (Out of last 198 interactions):\n"):
-        self.descriptive_header = descriptive_header'''
+    txt_delimiter: str
+    def __init__(self, descriptive_header="\nTop active subreddits ranked by quantity of comments and submissions (Out of last 198 interactions):\n", txt_delimiter = "MostActiveSubs_delim"):
+        self.descriptive_header = descriptive_header
+        self.txt_delimiter = txt_delimiter
 
 if __name__ == '__main__':
+    #erase previous text in text file
+    opened_file = open(file_name,"r+")
+    opened_file.truncate(0)
+    opened_file.close()
+    
     print()
     user_name = GetUsernameInput()
     print()
@@ -228,11 +239,12 @@ if __name__ == '__main__':
     user_comments_list = user_as_redditor.comments.new(limit=99) #Limited to 100 historical submissions by Reddit API
     user_submissions_list = user_as_redditor.submissions.new(limit=99) #Limited to 100 historical submissions by Reddit API
     
-    if user_shadowbanned:
+    if user_info.IsSuspended():
         print("User is shadowbanned - only contains name and is_suspended attributes")
     else:
-        SetBasicInfo()
-        print(GetBasicInfo())
+        user_info.SetBasicInfo()
+        user_info.PrintBasicInfo()
+        user_info.ConvertBasicInfoToTxt()
         
         print(FindFiveMostVotedSubmissions())
         print(FindFiveMostVotedComments())
