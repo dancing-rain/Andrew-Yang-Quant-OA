@@ -93,7 +93,7 @@ def FindPrintFiveMostVotedSubmissions():
     for submission in sorted_submissions:
         if idx < 5 and idx < len(sorted_submissions):
             print(str(idx + 1) + ")\t" + "score: " + str(submission.score) + " | " + datetime.utcfromtimestamp(int(submission.created_utc)).strftime("%m/%d/%Y, %H:%M:%S") + "UTC | " + str(submission.num_comments) + " comments | Title: " + submission.title)
-        elif idx < 5 and idx == len(sorted_submissions):
+        elif idx < 5 and idx == len(sorted_submissions) - 1:
             print("X)\tUser has made < 5 total submissions")
         idx+=1
         
@@ -107,11 +107,37 @@ def FindPrintFiveMostVotedComments():
             if len(comment_body) > 40:
                 comment_body = comment_body[0:100] + "..."
             print(str(idx + 1) + ")\t" + "score: " + str(comments.score) + " | " + datetime.utcfromtimestamp(int(comments.created_utc)).strftime("%m/%d/%Y, %H:%M:%S") + "UTC | " + str(len(comments.replies)) + " replies | contents: " + comment_body)
-        elif idx < 5 and idx == len(sorted_comments):
+        elif idx < 5 and idx == len(sorted_comments) - 1:
             print("X)\tUser has made < 5 total comments")
         idx+=1
     
-        
+def FindPrintVoteDistribution(): 
+    print("\nTop active subreddits ranked by comment/submission upvotes (Out of last 198 interactions):")
+    active_subreddits_map = {}
+    for comments in user_comments_list:
+        sub_name = comments.subreddit.display_name
+        upvote_qty = comments.score
+        if sub_name in active_subreddits_map.keys():
+            active_subreddits_map[sub_name] = active_subreddits_map[sub_name] + upvote_qty
+        else:
+            active_subreddits_map[sub_name] = upvote_qty
+    for submissions in user_submissions_list:
+        sub_name = submissions.subreddit.display_name
+        upvote_qty = submissions.score
+        if sub_name in active_subreddits_map.keys():
+            active_subreddits_map[sub_name] = active_subreddits_map[sub_name] + upvote_qty
+        else:
+            active_subreddits_map[sub_name] = upvote_qty
+    active_subreddits_list = []
+    for i,(k, v) in enumerate(active_subreddits_map.items()):
+        active_subreddits_list.append([k, v])
+    descending_subreddit_by_activity = sorted(active_subreddits_list,key=lambda x:x[1], reverse=True)
+    idx = 0
+    for subreddit in descending_subreddit_by_activity:
+        print(str(idx+1) + ")\tSubreddit: " + subreddit[0] + " | " + str(subreddit[1]) + " votes")
+        idx+=1
+    
+    
 
 class User:
     id: str
@@ -147,9 +173,11 @@ if __name__ == '__main__':
     if user_shadowbanned:
         print("User is shadowbanned - only contains name and is_suspended attributes")
     else:
-        SetBasicInfo()
+        '''SetBasicInfo()
         PrintBasicInfo()
         
         FindPrintFiveMostVotedSubmissions()
         FindPrintFiveMostVotedComments()
+        
+        FindPrintVoteDistribution()'''
     print("")
