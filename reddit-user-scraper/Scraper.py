@@ -112,7 +112,7 @@ def FindPrintFiveMostVotedComments():
         idx+=1
     
 def FindPrintVoteDistribution(): 
-    print("\nTop active subreddits ranked by comment/submission upvotes (Out of last 198 interactions):")
+    print("User's top subreddits ranked by comment/submission upvotes (Out of last 198 interactions):")
     active_subreddits_map = {}
     for comments in user_comments_list:
         sub_name = comments.subreddit.display_name
@@ -137,7 +137,29 @@ def FindPrintVoteDistribution():
         print(str(idx+1) + ")\tSubreddit: " + subreddit[0] + " | " + str(subreddit[1]) + " votes")
         idx+=1
     
-    
+def FindPrintMostActive():
+    print("\nTop active subreddits ranked by quantity of comments and submissions (Out of last 198 interactions):")
+    active_subreddits_map = {}
+    for comments in user_comments_list:
+        sub_name = comments.subreddit.display_name
+        if sub_name in active_subreddits_map.keys():
+            active_subreddits_map[sub_name] = active_subreddits_map[sub_name] + 1
+        else:
+            active_subreddits_map[sub_name] = 1
+    for submissions in user_submissions_list:
+        sub_name = submissions.subreddit.display_name
+        if sub_name in active_subreddits_map.keys():
+            active_subreddits_map[sub_name] = active_subreddits_map[sub_name] + 1
+        else:
+            active_subreddits_map[sub_name] = 1
+    active_subreddits_list = []
+    for i,(k, v) in enumerate(active_subreddits_map.items()):
+        active_subreddits_list.append([k, v])
+    descending_subreddit_by_activity = sorted(active_subreddits_list,key=lambda x:x[1], reverse=True)
+    idx = 0
+    for subreddit in descending_subreddit_by_activity:
+        print(str(idx+1) + ")\tSubreddit: " + subreddit[0] + " | " + str(subreddit[1]) + " interaction(s)")
+        idx+=1
 
 class User:
     id: str
@@ -180,4 +202,5 @@ if __name__ == '__main__':
         FindPrintFiveMostVotedComments()
         
         FindPrintVoteDistribution()'''
+        FindPrintMostActive()
     print("")
