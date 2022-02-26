@@ -1,23 +1,121 @@
 [
   {
     "UserInfo": {
-      "Username": "_dancingrain_",
-      "Cake Day": "07/03/2020, 06:27:58 UTC",
-      "Age": "603 days",
-      "User Comment Karma": "147 karma",
-      "User Overall Karma": "538 karma",
+      "Username": "geoffreychallen",
+      "Cake Day": "04/12/2018, 20:47:08 UTC",
+      "Age": "1415 days",
+      "User Comment Karma": "7820 karma",
+      "User Overall Karma": "8364 karma",
       "User is a moderator": "False",
       "User is suspended": "False",
-      "User ID": "6wp8edrq"
+      "User ID": "zqwu5ti"
     }
   },
   {
     "FiveMostVotedSubmissions": {
-      "Rank": "5",
-      "Score": "4",
-      "Time:": "10/11/2020, 03:35:11",
-      "Comments": "2",
-      "Title": "6 Night Watch"
+      "1": {
+        "Rank": "1",
+        "Score": "167",
+        "Time:": "04/19/2021, 19:46:40",
+        "Comments": "31",
+        "Title": "62% of Fall 2021 Courses Have a Room Assignment"
+      },
+      "2": {
+        "Rank": "2",
+        "Score": "76",
+        "Time:": "07/15/2018, 14:53:54",
+        "Comments": "10",
+        "Title": "Google Street View Car in Town"
+      },
+      "3": {
+        "Rank": "3",
+        "Score": "69",
+        "Time:": "04/20/2020, 16:10:41",
+        "Comments": "61",
+        "Title": "What would you want in a Proctorio alternative?"
+      },
+      "4": {
+        "Rank": "4",
+        "Score": "58",
+        "Time:": "12/13/2018, 05:14:11",
+        "Comments": "8",
+        "Title": "CS 125 Final Project Fair: Tomorrow (Thursday 12/13), 5\u20138PM, Siebel"
+      },
+      "5": {
+        "Rank": "5",
+        "Score": "52",
+        "Time:": "02/08/2021, 17:15:12",
+        "Comments": "1",
+        "Title": "Kotlin for Beginners Lessons"
+      }
+    }
+  },
+  {
+    "FiveMostVotedSubmissions": {
+      "1": {
+        "Rank": "1",
+        "Score": "163",
+        "Time": "11/10/2021, 14:35:50",
+        "Replies": "0",
+        "Body": "Halloween parties maybe? The timing..."
+      },
+      "2": {
+        "Rank": "2",
+        "Score": "60",
+        "Time": "01/25/2022, 14:38:49",
+        "Replies": "0",
+        "Body": "> Remember?I took a very small (~10..."
+      },
+      "3": {
+        "Rank": "3",
+        "Score": "59",
+        "Time": "11/05/2021, 12:59:09",
+        "Replies": "0",
+        "Body": "I'm still teaching my large introdu..."
+      },
+      "4": {
+        "Rank": "4",
+        "Score": "57",
+        "Time": "11/12/2021, 16:47:11",
+        "Replies": "0",
+        "Body": "It's not Tuesday, but [this seemed ..."
+      },
+      "5": {
+        "Rank": "5",
+        "Score": "42",
+        "Time": "02/17/2022, 14:15:15",
+        "Replies": "0",
+        "Body": "If only there was some way, some sy..."
+      }
+    }
+  },
+  {
+    "FiveMostVotedSubmissions": {
+      "1": {
+        "Rank": "1",
+        "Subreddit": "UIUC",
+        "Vote Count": "1484"
+      },
+      "2": {
+        "Rank": "2",
+        "Subreddit": "Professors",
+        "Vote Count": "529"
+      },
+      "3": {
+        "Rank": "3",
+        "Subreddit": "Kotlin",
+        "Vote Count": "100"
+      },
+      "4": {
+        "Rank": "4",
+        "Subreddit": "MultipleSclerosis",
+        "Vote Count": "7"
+      },
+      "5": {
+        "Rank": "5",
+        "Subreddit": "UIUC_CS",
+        "Vote Count": "2"
+      }
     }
   }
 ]

@@ -1,8 +1,0 @@
-
-TopFiveVotedCommentsData_delim
-listbegin_delim1;,.39;,.09/29/2020, 06:01:35;,.0;,.Bite-sized ration;,.list_delim_close
-listbegin_delim2;,.26;,.10/23/2020, 18:42:30;,.0;,.ig 2020 16 mbp will be x86 again then? perhaps 10/11th gen intel chip;,.list_delim_close
-listbegin_delim3;,.19;,.07/17/2020, 23:57:07;,.0;,.r/cursedimages;,.list_delim_close
-listbegin_delim4;,.13;,.11/07/2020, 22:15:47;,.0;,.4k is definitely noticeable if you're observant, but the avg viewing ;,.list_delim_close
-listbegin_delim5;,.9;,.12/01/2020, 08:31:17;,.0;,.spending 90% ingame circlejerking enUS manchildren doesnt earn you AN;,.list_delim_close
-TopFiveVotedCommentsData_delim_close
