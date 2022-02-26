@@ -160,6 +160,7 @@ class TopFiveVotedCommentsData:
             idx+=1
         
     def PrintFiveMostVotedComments(self):
+        print(self.descriptive_header)
         for idx in range(0,len(self.info_list_of_maps)):
             to_print = ""
             for idx1,(k,v) in enumerate(self.info_list_of_maps[idx].items()):
@@ -217,6 +218,7 @@ class VoteDistribution:
             idx+=1
             
     def PrintVoteDistribution(self):
+        print(self.descriptive_header)
         for idx in range(0,len(self.info_list_of_maps)):
             to_print = ""
             for idx1,(k,v) in enumerate(self.info_list_of_maps[idx].items()):
@@ -272,6 +274,7 @@ class MostActiveSubs:
             idx+=1
     
     def PrintActiveSubs(self):
+        print(self.descriptive_header)
         for idx in range(0,len(self.info_list_of_maps)):
             to_print = ""
             for idx1,(k,v) in enumerate(self.info_list_of_maps[idx].items()):
@@ -334,5 +337,5 @@ if __name__ == '__main__':
         u4 = MostActiveSubs()
         u4.FindMostActive()
         u4.PrintActiveSubs()
-        u4.ConvertActiveSubsToTxt
+        u4.ConvertActiveSubsToTxt()
     print("")
