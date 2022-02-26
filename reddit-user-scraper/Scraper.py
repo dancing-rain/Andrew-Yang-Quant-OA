@@ -146,9 +146,9 @@ class UserInfo:
             self.karma_comments = str(user_as_redditor.comment_karma) + " karma"
             self.karma_overall = str(user_as_redditor.link_karma + user_as_redditor.comment_karma) + " karma"
             #Is user a moderator
-            self.moderator = False;
+            self.moderator = "False";
             if (user_as_redditor.is_mod):
-                self.moderator = True;
+                self.moderator = "True";
             self.info_map = {"Username":self.name, "Cake Day":self.cake_day, "Age":self.age, "User Comment Karma":self.karma_comments, "User Overall Karma":self.karma_overall, "User is a moderator":self.moderator, "User is suspended":self.suspended, "User ID":self.id}
 
             
@@ -156,8 +156,11 @@ class UserInfo:
         return self.suspended == "True"
     
     def ConvertBasicInfoToTxt(self):
+        with open("scraper_output.json", "r") as f:   
+            feed = json.load(f) 
         with open("scraper_output.json", "w") as outfile:
-            json.dump(self.info_map, outfile)
+            feed.append({"UserInfo":self.info_map})
+            json.dump(list(feed), outfile, indent=2)
         
     def PrintBasicInfo(self):
         for i,(k,v) in enumerate(self.info_map.items()):
@@ -166,33 +169,44 @@ class UserInfo:
         
 class TopFiveVotedSubmissionsData:
     descriptive_header: str
-    info_keys: list
-    info_values: list
-    txt_delimiter: str
+    info_list_of_maps: list
     
     def __init__(self, descriptive_header="\nTop 5 most upvoted posts (Out of last 99 posts):\n", txt_delimiter = "TopFiveVotedSubmissionsData_delim"):
         self.descriptive_header = descriptive_header
-        self.info_keys = ["Rank ", "| Score: ", " | Time: ", " UTC | ", " comments | Title: "]
-        self.info_values = []
-        self.txt_delimiter = txt_delimiter
+        self.info_list_of_maps = []
         
     def FindFiveMostVotedSubmissions(self):
         sorted_submissions = sorted(user_submissions_list,key=lambda x:x.score, reverse=True)
         idx = 0
         for submission in sorted_submissions:
             if idx < 5 and idx < len(sorted_submissions):
-                self.info_values.append([idx + 1, submission.score, datetime.utcfromtimestamp(int(submission.created_utc)).strftime("%m/%d/%Y, %H:%M:%S"), submission.num_comments, submission.title])
+                self.info_list_of_maps.append({"Rank":str(idx + 1), "Score":str(submission.score),"Time:":str(datetime.utcfromtimestamp(int(submission.created_utc)).strftime("%m/%d/%Y, %H:%M:%S")), "Comments":str(submission.num_comments), "Title":str(submission.title)})
             idx+=1
             
     def PrintFiveMostVotedSubmissions(self):
         print(self.descriptive_header)
-        for idx in range(0,len(self.info_values)):
+        for idx in range(0,len(self.info_list_of_maps)):
             to_print = ""
-            for idx1 in range(0,len(self.info_keys)):
-                to_print += self.info_keys[idx1] + str(self.info_values[idx][idx1])
+            for idx1,(k,v) in enumerate(self.info_list_of_maps[idx].items()):
+                to_print += str(k) + ": " + str(v)
+                if idx1 < len(self.info_list_of_maps[idx]):
+                    to_print += " | "
             print(to_print)
             
     def ConvertFiveMostVotedSubmissionsToTxt(self):
+        with open("scraper_output.json", "r") as f:   
+            feed = json.load(f) 
+        with open("scraper_output.json", "w") as outfile:
+            info_map = {}
+            for map in self.info_list_of_maps:
+                for idx, (k,v) in enumerate(map.items()):
+                    info_map[k] = v
+            to_append = {"FiveMostVotedSubmissions":info_map}
+            feed.append(to_append)
+            json.dump(list(feed), outfile, indent=2)
+        '''with open("scraper_output.json", "w") as outfile:
+            for map in self.info_list_of_maps:
+                json.dumps(map, indent=4, sort_keys=True)
         opened_file.write("\n" + self.txt_delimiter + "\n")
         for idx in range(0,len(self.info_values)):
             to_txt = "listbegin_delim"
@@ -200,7 +214,7 @@ class TopFiveVotedSubmissionsData:
                 to_txt +=str(self.info_values[idx][idx1]) + ";,."
             to_txt += "list_delim_close\n"
             opened_file.write(to_txt)
-        opened_file.write(self.txt_delimiter + "_close\n")
+        opened_file.write(self.txt_delimiter + "_close\n")'''
         
 class TopFiveVotedCommentsData:
     descriptive_header: str
@@ -256,11 +270,15 @@ if __name__ == '__main__':
     user_name = GetUsernameInput()
     print()
     
+    with open("scraper_output.json", mode='w') as outfile:
+        json.dump([], outfile, indent=2)
+        
     user_as_redditor = reddit.redditor(user_name)
     user_info = UserInfo()
     
-    user_comments_list = list(user_as_redditor.comments.new(limit=99)) #Limited to 100 historical submissions by Reddit API
-    user_submissions_list = list(user_as_redditor.submissions.new(limit=99)) #Limited to 100 historical submissions by Reddit API
+    user_comments_list = list(user_as_redditor.comments.new(limit=99)).copy() #Limited to 100 historical submissions by Reddit API
+    user_submissions_list = list(user_as_redditor.submissions.new(limit=99)).copy() #Limited to 100 historical submissions by Reddit API
+    
     
     if user_info.IsSuspended():
         print("User is shadowbanned - only contains name and is_suspended attributes")
