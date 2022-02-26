@@ -235,7 +235,7 @@ class VoteDistribution:
                 for idx, (k,v) in enumerate(self.info_list_of_maps[i].items()):
                     submission_map[k] = v
                 info_map.update({i+1:submission_map.copy()})
-            to_append = {"FiveMostVotedSubmissions":info_map}
+            to_append = {"VoteDistribution":info_map}
             feed.append(to_append)
             json.dump(list(feed), outfile, indent=2)
 class MostActiveSubs:
@@ -290,7 +290,7 @@ class MostActiveSubs:
                 for idx, (k,v) in enumerate(self.info_list_of_maps[i].items()):
                     submission_map[k] = v
                 info_map.update({i+1:submission_map.copy()})
-            to_append = {"FiveMostVotedSubmissions":info_map}
+            to_append = {"MostActiveSubreddits":info_map}
             feed.append(to_append)
             json.dump(list(feed), outfile, indent=2)
 
@@ -309,7 +309,7 @@ if __name__ == '__main__':
     user_submissions_list = list(user_as_redditor.submissions.new(limit=99)).copy() #Limited to 100 historical submissions by Reddit API
     
     
-    if user_info.IsSuspended():
+    if user_info.IsSuspended(): #todo issuspended status needs to be updated accurately prior
         print("User is shadowbanned - only contains name and is_suspended attributes")
     else:
         user_info.SetBasicInfo()

@@ -1,52 +1,52 @@
 [
   {
     "UserInfo": {
-      "Username": "geoffreychallen",
-      "Cake Day": "04/12/2018, 20:47:08 UTC",
-      "Age": "1415 days",
-      "User Comment Karma": "7820 karma",
-      "User Overall Karma": "8364 karma",
-      "User is a moderator": "False",
+      "Username": "tomatosmoothie",
+      "Cake Day": "10/23/2015, 23:34:34 UTC",
+      "Age": "2317 days",
+      "User Comment Karma": "9988 karma",
+      "User Overall Karma": "24309 karma",
+      "User is a moderator": "True",
       "User is suspended": "False",
-      "User ID": "zqwu5ti"
+      "User ID": "retsn"
     }
   },
   {
     "FiveMostVotedSubmissions": {
       "1": {
         "Rank": "1",
-        "Score": "167",
-        "Time:": "04/19/2021, 19:46:40",
-        "Comments": "31",
-        "Title": "62% of Fall 2021 Courses Have a Room Assignment"
+        "Score": "509",
+        "Time:": "12/29/2021, 17:05:54",
+        "Comments": "34",
+        "Title": "UIUC colleges slander"
       },
       "2": {
         "Rank": "2",
-        "Score": "76",
-        "Time:": "07/15/2018, 14:53:54",
-        "Comments": "10",
-        "Title": "Google Street View Car in Town"
+        "Score": "399",
+        "Time:": "12/12/2021, 23:17:42",
+        "Comments": "5",
+        "Title": "Don\u2019t get lost!"
       },
       "3": {
         "Rank": "3",
-        "Score": "69",
-        "Time:": "04/20/2020, 16:10:41",
-        "Comments": "61",
-        "Title": "What would you want in a Proctorio alternative?"
+        "Score": "359",
+        "Time:": "01/18/2022, 09:32:53",
+        "Comments": "9",
+        "Title": "Still no emails :("
       },
       "4": {
         "Rank": "4",
-        "Score": "58",
-        "Time:": "12/13/2018, 05:14:11",
-        "Comments": "8",
-        "Title": "CS 125 Final Project Fair: Tomorrow (Thursday 12/13), 5\u20138PM, Siebel"
+        "Score": "352",
+        "Time:": "10/23/2021, 17:02:08",
+        "Comments": "13",
+        "Title": "Is the midterm curved?"
       },
       "5": {
         "Rank": "5",
-        "Score": "52",
-        "Time:": "02/08/2021, 17:15:12",
-        "Comments": "1",
-        "Title": "Kotlin for Beginners Lessons"
+        "Score": "330",
+        "Time:": "12/28/2021, 18:58:02",
+        "Comments": "16",
+        "Title": "Subleasing the Illini Union"
       }
     }
   },
@@ -54,67 +54,47 @@
     "FiveMostVotedSubmissions": {
       "1": {
         "Rank": "1",
-        "Score": "163",
-        "Time": "11/10/2021, 14:35:50",
+        "Score": "149",
+        "Time": "02/16/2022, 22:42:33",
         "Replies": "0",
-        "Body": "Halloween parties maybe? The timing..."
+        "Body": "I don\u2019t know homie, you have been r..."
       },
       "2": {
         "Rank": "2",
-        "Score": "60",
-        "Time": "01/25/2022, 14:38:49",
+        "Score": "85",
+        "Time": "02/09/2022, 21:22:46",
         "Replies": "0",
-        "Body": "> Remember?I took a very small (~10..."
+        "Body": "WHY CANT THIS BE ME \ud83d\ude2d\ud83d\ude2d\ud83d\ude2d\ud83d\ude2d..."
       },
       "3": {
         "Rank": "3",
+        "Score": "73",
+        "Time": "02/09/2022, 01:26:54",
+        "Replies": "0",
+        "Body": "I think having a huge projector wou..."
+      },
+      "4": {
+        "Rank": "4",
         "Score": "59",
-        "Time": "11/05/2021, 12:59:09",
+        "Time": "02/18/2022, 12:07:47",
         "Replies": "0",
-        "Body": "I'm still teaching my large introdu..."
-      },
-      "4": {
-        "Rank": "4",
-        "Score": "57",
-        "Time": "11/12/2021, 16:47:11",
-        "Replies": "0",
-        "Body": "It's not Tuesday, but [this seemed ..."
+        "Body": "My bad I accidentally tripped on my..."
       },
       "5": {
         "Rank": "5",
-        "Score": "42",
-        "Time": "02/17/2022, 14:15:15",
+        "Score": "43",
+        "Time": "02/25/2022, 17:46:38",
         "Replies": "0",
-        "Body": "If only there was some way, some sy..."
+        "Body": "We should hold LAS administration a..."
       }
     }
   },
   {
-    "FiveMostVotedSubmissions": {
+    "VoteDistribution": {
       "1": {
         "Rank": "1",
         "Subreddit": "UIUC",
-        "Vote Count": "1484"
-      },
-      "2": {
-        "Rank": "2",
-        "Subreddit": "Professors",
-        "Vote Count": "529"
-      },
-      "3": {
-        "Rank": "3",
-        "Subreddit": "Kotlin",
-        "Vote Count": "100"
-      },
-      "4": {
-        "Rank": "4",
-        "Subreddit": "MultipleSclerosis",
-        "Vote Count": "7"
-      },
-      "5": {
-        "Rank": "5",
-        "Subreddit": "UIUC_CS",
-        "Vote Count": "2"
+        "Vote Count": "10866"
       }
     }
   }
