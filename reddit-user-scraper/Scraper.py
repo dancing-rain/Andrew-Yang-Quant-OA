@@ -389,12 +389,12 @@ if __name__ == '__main__':
         u4.PrintActiveSubs()
         u4.ConvertActiveSubsToTxt()
         
-        #test jsonreader
-        '''temp = GetUserFromJson("scraper_output.json")
+        #test json reader
+        '''print("")
+        temp = GetUserFromJson("scraper_output.json")
         temp["UserInfo"].PrintBasicInfo()
         temp["FiveMostVotedSubmissions"].PrintFiveMostVotedSubmissions()
         temp["FiveMostVotedComments"].PrintFiveMostVotedComments()
         temp["VoteDistribution"].PrintVoteDistribution()
         temp["MostActiveSubreddits"].PrintActiveSubs()'''
-        
-    print("")
+        print("")
